@@ -36,7 +36,7 @@ func main() {
 	}
 
 	fmt.Println("Started...")
-
+	fmt.Println("Operation - Namespace - Name - Date - Pod IP - Host IP")
 	// create watch for pods
 	watchlist := cache.NewListWatchFromClient(clientset.Core().RESTClient(), "pods", v1.NamespaceDefault, fields.Everything())
     	_, controller := cache.NewInformer(
@@ -46,15 +46,27 @@ func main() {
         	cache.ResourceEventHandlerFuncs{
             		AddFunc: func(obj interface{}) {
 				pod := obj.(*v1.Pod)
-                		fmt.Printf("add - %s - %s - %s \n", pod.ObjectMeta.Namespace, pod.ObjectMeta.Name, pod.ObjectMeta.CreationTimestamp)
+				namespace := pod.ObjectMeta.Namespace
+				name := pod.ObjectMeta.Name
+				creationTime := pod.ObjectMeta.CreationTimestamp
+
+				fmt.Printf("add - %s - %s - %s - %s - %s \n", namespace, name, creationTime, pod.Status.PodIP, pod.Status.HostIP)
             		},
             		DeleteFunc: func(obj interface{}) {
 				pod := obj.(*v1.Pod)
-                		fmt.Printf("delete: %s - %s - %s \n", pod.ObjectMeta.Namespace, pod.ObjectMeta.Name, pod.ObjectMeta.CreationTimestamp)
+				namespace := pod.ObjectMeta.Namespace
+				name := pod.ObjectMeta.Name
+				creationTime := pod.ObjectMeta.CreationTimestamp
+
+				fmt.Printf("delete - %s - %s - %s - %s - %s \n", namespace, name, creationTime, pod.Status.PodIP, pod.Status.HostIP)
             		},
             		UpdateFunc:func(oldObj, newObj interface{}) {
 				oldPod := oldObj.(*v1.Pod)
-                		fmt.Printf("changed: %s - %s - %s \n", oldPod.ObjectMeta.Namespace, oldPod.ObjectMeta.Name, oldPod.ObjectMeta.CreationTimestamp)
+				namespace := oldPod.ObjectMeta.Namespace
+				name := oldPod.ObjectMeta.Name
+				creationTime := oldPod.ObjectMeta.CreationTimestamp
+
+				fmt.Printf("change - %s - %s - %s - %s - %s \n", namespace, name, creationTime, oldPod.Status.PodIP, oldPod.Status.HostIP)
             		},
         	},
     	)
