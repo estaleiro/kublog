@@ -1,0 +1,10 @@
+kubeconfig = "/root/.kube/config"
+log_filename = "/var/log/kublog.log"
+period = 1
+
+[elasticsearch]
+hosts = ["http://127.0.0.1:9200"]
+indexname = "kublogindex"
+timeout = "2s"
+enable_sniffer = false
+health_check_interval = "0s"

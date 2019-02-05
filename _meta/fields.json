@@ -1,0 +1,30 @@
+{
+	"settings":{
+		"number_of_shards": 1,
+		"number_of_replicas": 0
+	},
+	"mappings":{
+		"kublog":{
+			"properties":{
+				"operation":{
+					"type":"keyword"
+				},
+				"namespace":{
+					"type":"keyword"
+				},
+				"name":{
+					"type":"keyword"
+				},
+				"action_time":{
+					"type":"date"
+				},
+				"pod_ip":{
+					"type":"keyword"
+				},
+				"host_ip":{
+					"type":"keyword"
+				}
+			}
+		}
+	}
+}
